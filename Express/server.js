@@ -9,5 +9,8 @@ app.get("/api/planets", (req, res) =>{
 
 } );
 
+
+
+
 app.listen(port,() =>(console.log("listening")))
 
