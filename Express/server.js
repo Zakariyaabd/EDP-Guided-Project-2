@@ -41,8 +41,8 @@ app.get('/api/characters/:id', async (req, res) => {
         console.log("character ID collection: ", db); 
         const collection = db.collection('characters');
 
-        const characterId = req.params.id; 
-        const character = await collection.findOne({_id: new ObjectId(characterId)}); 
+        const characterId = +req.params.id; 
+        const character = await collection.findOne({"id": characterId}); 
 
         if (character) {
             res.json(character)
@@ -57,8 +57,45 @@ app.get('/api/characters/:id', async (req, res) => {
     }
 });
     
+app.get('/api/planets/:id', async (req, res) => {
+    try {
+        // const client = new MongoClient(URL);
+        await client.connect()
+        const db = client.db(dbName);
+        const collection = db.collection('planets');
+
+        const planetId = +req.params.id; 
+        const planet = await collection.findOne({'id': planetId}); 
+
+        if (planet) {
+            res.json(planet)
+        } else {
+            res.status(404).send('Planet not found'); 
+        }
 
 
+    } catch (error) {
+        console.error("Error fetching: ", error);
+        res.status(500).send('server error. ')
+    }
+});
+
+
+app.get('/api/planets', async (req, res) => {
+    
+    try {
+        // const client = new MongoClient(URL);
+        await client.connect();
+        const db = client.db(dbName);
+        console.log("Connected to Db ", db);
+        const collection = db.collection('planets'); 
+        const planets = await collection.find().toArray(); 
+        res.json(planets);
+
+    } catch (error) {
+        console.error("Error fetching: ", error);
+    }
+});
 
 
 
