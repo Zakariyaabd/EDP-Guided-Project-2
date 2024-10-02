@@ -1,6 +1,7 @@
-const express = require("express");
-const { MongoClient, ObjectId } = require ("mongodb"); 
-const dotenv = require('dotenv');
+import express from 'express';
+import { MongoClient, ObjectId } from 'mongodb'; 
+import dotenv from 'dotenv';
+import cors from 'cors';
 
 // load environment variable from .env
 dotenv.config();
@@ -10,6 +11,7 @@ const dbName = process.env.MONGO_DB;
 
 const app = express();
 const port = 3000;
+app.use(cors());
 
 // Middleware to parse JSON bodies
 app.use(express.json());
